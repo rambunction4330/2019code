@@ -88,6 +88,8 @@ class Robot : TimedRobot() {
      */
     override fun teleopPeriodic() {
         drive.curveDrive(xbox.getX(GenericHID.Hand.kLeft), xbox.getY(GenericHID.Hand.kLeft), xbox.getY(GenericHID.Hand.kLeft) <= 0.5)
+        drive.moveArm(xbox.getBumper(GenericHID.Hand.kRight))
+        drive.toggleCargoInput(xbox.aButtonReleased)
     }
 
     /**
