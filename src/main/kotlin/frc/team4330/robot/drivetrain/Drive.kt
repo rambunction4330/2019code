@@ -15,28 +15,34 @@ import edu.wpi.first.wpilibj.SpeedController
 import edu.wpi.first.wpilibj.SpeedControllerGroup
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import frc.team4330.robot.RobotMap
+import jaci.pathfinder.modifiers.TankModifier;
+
 
 /**
  * Add your docs here.
  */
 class Drive {
 
-    var left = SpeedControllerGroup(RobotMap.frontLeft, RobotMap.backLeft)
-    var right = SpeedControllerGroup(RobotMap.frontRight, RobotMap.backRight)
-    var drive = DifferentialDrive(left, right)
+//    var left = SpeedControllerGroup(RobotMap.frontLeft, RobotMap.backLeft)    //so frontLeft and backLeft wheels move forward/backwards in coordination
+//    var right = SpeedControllerGroup(RobotMap.frontRight, RobotMap.backRight) //so frontRight and backRight wheels move forwards/backwards in coordination
+    var drive = DifferentialDrive(RobotMap.frontLeft, RobotMap.frontRight)
 
     var cargoInput = DifferentialDrive(RobotMap.inputLeft, RobotMap.inputRight)
-
     //Data Storage
+
+    //what is 'inputRunning' :Darren: also I left more notes/questions everywhere
     var inputRunning = false
 
     fun curveDrive(x: Double, y: Double, turn: Boolean) {
-        drive.arcadeDrive(x, y, turn)
+        drive.arcadeDrive(x, y)
     }
+
+
 
 //    fun moveArm(i: Boolean) {
 //        RobotMap.armSolenoid.set(i)
 //    }
+
 
     fun toggleCargoInput(isPressed:Boolean) {
         if (isPressed) {
@@ -50,4 +56,5 @@ class Drive {
             }
         }
     }
+
 }

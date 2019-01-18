@@ -21,10 +21,13 @@ import frc.team4330.robot.drivetrain.Drive
  * project.
  */
 class Robot : TimedRobot() {
+
+
     private var m_autoSelected: String? = null
     private val m_chooser = SendableChooser<String>()
-    private var drive = Drive()
+    var drive = Drive()
     var xbox = RobotMap.XboxPort
+    lateinit var pathfinding : Autopath
 
 
     /**
@@ -32,9 +35,15 @@ class Robot : TimedRobot() {
      * used for any initialization code.
      */
     override fun robotInit() {
+        RobotMap.gyro.reset()
+        pathfinding = Autopath()
+        pathfinding.initialize()
+
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto)
         m_chooser.addOption("My Auto", kCustomAuto)
         SmartDashboard.putData("Auto choices", m_chooser)
+        RobotMap.backRight.follow(RobotMap.frontRight)
+        RobotMap.backLeft.follow(RobotMap.frontLeft)
     }
 
     /**
@@ -54,7 +63,7 @@ class Robot : TimedRobot() {
      * This autonomous (along with the chooser code above) shows how to select
      * between different autonomous modes using the dashboard. The sendable
      * chooser code works with the Java SmartDashboard. If you prefer the
-     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+     * LabVIEW Dashboard, remove all of the chooser code and Comment the
      * getString line to get the auto name from the text box below the Gyro
      *
      *
@@ -64,22 +73,27 @@ class Robot : TimedRobot() {
      */
     override fun autonomousInit() {
         m_autoSelected = m_chooser.selected
-        // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+//        m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
         println("Auto selected: " + m_autoSelected!!)
+
     }
 
     /**
      * This function is called periodically during autonomous.
      */
     override fun autonomousPeriodic() {
-        when (m_autoSelected) {
-            kCustomAuto -> {
-            }
-            kDefaultAuto -> {
-            }
-            else -> {
-            }
-        }// Put custom auto code here
+//        when (m_autoSelected) {
+//            kCustomAuto -> {
+//                drive.drive.tankDrive(0.0, 0.0)
+//            }
+//            kDefaultAuto -> {
+//                pathfinding.autoPath(drive)
+//            }
+//            else -> {
+//                drive.drive.tankDrive(0.0,0.0)
+//            }
+//        }
+        // Put custom auto code here
         // Put default auto code here
     }
 
@@ -87,7 +101,11 @@ class Robot : TimedRobot() {
      * This function is called periodically during operator control.
      */
     override fun teleopPeriodic() {
-        drive.curveDrive(xbox.getX(GenericHID.Hand.kLeft), xbox.getY(GenericHID.Hand.kLeft), xbox.getY(GenericHID.Hand.kLeft) <= 0.5)
+        drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
+//        println()
+        if(xbox.bButton) {
+                pathfinding.autoPath(drive)
+        }
 //        drive.moveArm(xbox.getBumper(GenericHID.Hand.kRight))
 //        drive.toggleCargoInput(xbox.aButtonReleased)
     }
