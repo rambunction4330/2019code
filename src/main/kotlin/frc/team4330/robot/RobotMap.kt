@@ -12,6 +12,10 @@ import com.ctre.phoenix.motorcontrol.DemandType
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.cameraserver.CameraServer
+import edu.wpi.first.vision.VisionPipeline
+import edu.wpi.first.vision.VisionRunner
+import edu.wpi.first.vision.VisionThread
 import edu.wpi.first.wpilibj.Compressor
 import edu.wpi.first.wpilibj.I2C
 import edu.wpi.first.wpilibj.Solenoid
@@ -21,6 +25,13 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import java.io.File
 import jaci.pathfinder.modifiers.TankModifier;
+import javax.swing.Spring.width
+import org.opencv.imgproc.Imgproc
+import javax.swing.Spring.width
+
+
+
+
 
 
 
@@ -43,6 +54,9 @@ object RobotMap {
     //hangar
     //var armSolenoid = Solenoid(5)
 
+    //vision
+
+
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
 
@@ -58,10 +72,12 @@ object RobotMap {
 
     //what does 'init' do/mean (initialize?)
     init {
-//        frontRight.set(ControlMode.Position, 1.0, DemandType.ArbitraryFeedForward, 1.0)
-//        frontLeft.set(ControlMode.Position, 1.0)
-//        backRight.follow(frontRight)
-//        backLeft.follow(frontLeft)
-//        RobotCompressor.start()
+
+
+//      frontRight.set(ControlMode.Position, 1.0, DemandType.ArbitraryFeedForward, 1.0)
+//      frontLeft.set(ControlMode.Position, 1.0)
+//      backRight.follow(frontRight)
+//      backLeft.follow(frontLeft)
+//      RobotCompressor.start()
     }
 }

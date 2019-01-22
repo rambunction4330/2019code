@@ -7,15 +7,8 @@
 
 package frc.team4330.robot.drivetrain
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX
-import com.ctre.phoenix.motorcontrol.can.VictorSPX
-import edu.wpi.first.wpilibj.Compressor
-
-import edu.wpi.first.wpilibj.SpeedController
-import edu.wpi.first.wpilibj.SpeedControllerGroup
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import frc.team4330.robot.RobotMap
-import jaci.pathfinder.modifiers.TankModifier;
 
 
 /**
@@ -36,7 +29,6 @@ class Drive {
     fun curveDrive(x: Double, y: Double, turn: Boolean) {
         drive.arcadeDrive(x, y)
     }
-
 
 
 //    fun moveArm(i: Boolean) {

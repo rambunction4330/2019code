@@ -39,7 +39,7 @@ class Autopath {
         )
 
         val trajectory = Pathfinder.generate(points, config)
-        val modifier = TankModifier(trajectory).modify(0.735)
+        val modifier = TankModifier(trajectory).modify(0.686)
 
 //        fileLeft = File("test1_left.csv")
 //        fileRight = File("test1_right.csv")
@@ -53,10 +53,8 @@ class Autopath {
 
     fun autoPath(drive: Drive) {
 //        i.rem(trajectoryLeft.length())
-        if(i.rem(trajectoryLeft.length()) <= trajectoryLeft.length()) {
-            drive.drive.tankDrive(trajectoryLeft.get(i.rem(trajectoryLeft.length())).velocity, trajectoryRight.get(i.rem(trajectoryLeft.length())).velocity)
-        } else {
-            drive.drive.tankDrive(0.0, 0.0)
+        if(i <= trajectoryLeft.length()) {
+            drive.drive.tankDrive(trajectoryLeft.get(i).velocity, trajectoryRight.get(i).velocity)
         }
         i++
     }

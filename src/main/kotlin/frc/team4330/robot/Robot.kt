@@ -12,6 +12,12 @@ import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team4330.robot.drivetrain.Drive
+import frc.team4330.robot.drivetrain.VisionFollow
+import frc.team4330.robot.drivetrain.Vision
+import javax.swing.Spring.width
+import org.opencv.imgproc.Imgproc
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,6 +34,7 @@ class Robot : TimedRobot() {
     var drive = Drive()
     var xbox = RobotMap.XboxPort
     lateinit var pathfinding : Autopath
+    lateinit var follow : VisionFollow
 
 
     /**
@@ -35,15 +42,20 @@ class Robot : TimedRobot() {
      * used for any initialization code.
      */
     override fun robotInit() {
+
         RobotMap.gyro.reset()
-        pathfinding = Autopath()
-        pathfinding.initialize()
+
+//        pathfinding = Autopath()
+//        pathfinding.initialize()
+
 
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto)
         m_chooser.addOption("My Auto", kCustomAuto)
         SmartDashboard.putData("Auto choices", m_chooser)
         RobotMap.backRight.follow(RobotMap.frontRight)
         RobotMap.backLeft.follow(RobotMap.frontLeft)
+
+
     }
 
     /**
@@ -72,9 +84,13 @@ class Robot : TimedRobot() {
      * SendableChooser make sure to add them to the chooser code above as well.
      */
     override fun autonomousInit() {
+        follow = VisionFollow()
+
         m_autoSelected = m_chooser.selected
 //        m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
         println("Auto selected: " + m_autoSelected!!)
+        follow.initialize()
+
 
     }
 
@@ -93,6 +109,13 @@ class Robot : TimedRobot() {
 //                drive.drive.tankDrive(0.0,0.0)
 //            }
 //        }
+
+        follow.visionDrive(drive)
+
+//        pathfinding.autoPath(drive)
+
+
+
         // Put custom auto code here
         // Put default auto code here
     }
@@ -102,10 +125,10 @@ class Robot : TimedRobot() {
      */
     override fun teleopPeriodic() {
         drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
+
 //        println()
-        if(xbox.bButton) {
-                pathfinding.autoPath(drive)
-        }
+//        if(xbox.bButton) {
+//        }
 //        drive.moveArm(xbox.getBumper(GenericHID.Hand.kRight))
 //        drive.toggleCargoInput(xbox.aButtonReleased)
     }
