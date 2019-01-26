@@ -1,20 +1,10 @@
-package frc.team4330.robot
+package frc.team4330.robot.IO
 
-
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
-import java.util.ArrayList
-import java.util.stream.Collectors
-import java.util.HashMap
 
 import edu.wpi.first.vision.VisionPipeline
 import org.opencv.core.*
-import org.opencv.core.Core.*
-import org.opencv.features2d.FeatureDetector
-import org.opencv.imgcodecs.Imgcodecs
-import org.opencv.imgproc.*
-import org.opencv.objdetect.*
+import org.opencv.imgproc.Imgproc
+import java.util.*
 
 /**
  * GripPipeline class.
@@ -36,11 +26,10 @@ class GripPipeline : VisionPipeline {
      */
     override fun process(source0: Mat) {
         // Step HSV_Threshold0:
-        val hsvThresholdInput = source0
-        val hsvThresholdHue = doubleArrayOf(0.0, 1.5358361774744056)
-        val hsvThresholdSaturation = doubleArrayOf(0.0, 33.07167235494882)
-        val hsvThresholdValue = doubleArrayOf(249.95503597122303, 255.0)
-        hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput)
+        val hsvThresholdHue = doubleArrayOf(50.179856115107924, 84.47098976109214)
+        val hsvThresholdSaturation = doubleArrayOf(0.0, 104.87201365187714)
+        val hsvThresholdValue = doubleArrayOf(126.12410071942448, 255.0)
+        hsvThreshold(source0, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput)
 
         // Step Find_Contours0:
         val findContoursInput = hsvThresholdOutput
@@ -49,13 +38,13 @@ class GripPipeline : VisionPipeline {
 
         // Step Filter_Contours0:
         val filterContoursContours = findContoursOutput
-        val filterContoursMinArea = 0.0
-        val filterContoursMinPerimeter = 0.0
-        val filterContoursMinWidth = 50.0
+        val filterContoursMinArea = 5.0
+        val filterContoursMinPerimeter = 10.0
+        val filterContoursMinWidth = 10.0
         val filterContoursMaxWidth = 1000.0
-        val filterContoursMinHeight = 50.0
+        val filterContoursMinHeight = 10.0
         val filterContoursMaxHeight = 1000.0
-        val filterContoursSolidity = doubleArrayOf(86.33093525179856, 100.0)
+        val filterContoursSolidity = doubleArrayOf(77.33812949640289, 100.0)
         val filterContoursMaxVertices = 1000000.0
         val filterContoursMinVertices = 0.0
         val filterContoursMinRatio = 0.0
@@ -96,7 +85,7 @@ class GripPipeline : VisionPipeline {
      * @param hue The min and max hue
      * @param sat The min and max saturation
      * @param val The min and max value
-     * //	 * @param output The image in which to store the output.
+     * @param output The image in which to store the output.
      */
     private fun hsvThreshold(input: Mat, hue: DoubleArray, sat: DoubleArray, `val`: DoubleArray,
                              out: Mat) {
@@ -108,9 +97,9 @@ class GripPipeline : VisionPipeline {
     /**
      * Sets the values of pixels in a binary image to their distance to the nearest black pixel.
      * @param input The image on which to perform the Distance Transform.
-     * //	 * @param type The Transform.
-     * //	 * @param maskSize the size of the mask.
-     * //	 * @param output The image in which to store the output.
+     * @param type The Transform.
+     * @param maskSize the size of the mask.
+     * @param output The image in which to store the output.
      */
     private fun findContours(input: Mat, externalOnly: Boolean,
                              contours: MutableList<MatOfPoint>) {
@@ -137,7 +126,7 @@ class GripPipeline : VisionPipeline {
      * @param maxWidth maximum width
      * @param minHeight minimum height
      * @param maxHeight maximimum height
-     * //	 * @param Solidity the minimum and maximum solidity of a contour
+     * @param Solidity the minimum and maximum solidity of a contour
      * @param minVertexCount minimum vertex Count of the contours
      * @param maxVertexCount maximum vertex Count
      * @param minRatio minimum ratio of width to height
