@@ -34,12 +34,12 @@ class Autopath {
         val config = Trajectory.Config(
                 Trajectory.FitMethod.HERMITE_CUBIC,
                 Trajectory.Config.SAMPLES_HIGH,
-                0.05, .8, 2.0, 60.0
+                0.05, 1.7, 2.0, 60.0
         )
 
         val points = arrayOf(
                 Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-                Waypoint(2.0, 0.0, Pathfinder.d2r(0.0))
+                Waypoint(2.5, 1.0, Pathfinder.d2r(0.0))
         )
 
         val trajectory = Pathfinder.generate(points, config)
@@ -66,7 +66,7 @@ class Autopath {
 
     fun autoPath(drive: Drive) {
 //        RobotMap.frontRight
-        if (true) {
+        if (!left.isFinished && !right.isFinished) {
 
             var l = left.calculate(encLeft)
             var r = right.calculate(encRight)
@@ -75,10 +75,12 @@ class Autopath {
             var desired_heading = Pathfinder.r2d(left.heading)  // Should also be in degrees
 
             var angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading)
-            var turn = 0.8 * (-1.0 / 80.0) * angleDifference
-
+            var turn = 0.8 * (-1.0 / 50) * angleDifference
+//              var turn = 0
             drive.drive.tankDrive(l + turn, r - turn)
             println(gyro_heading)
+        } else {
+            println("Done!")
         }
     }
 }
