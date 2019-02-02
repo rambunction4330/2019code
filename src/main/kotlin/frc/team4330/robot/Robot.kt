@@ -49,6 +49,8 @@ class Robot : TimedRobot() {
         RobotMap.backRight.follow(RobotMap.frontRight)
         RobotMap.backLeft.follow(RobotMap.frontLeft)
 
+
+//        RobotMap.gyro.reset()
         pathfinding = Autopath()
         pathfinding.initialize()
     }
@@ -81,10 +83,12 @@ class Robot : TimedRobot() {
     override fun autonomousInit() {
         follow = VisionFollow()
 
+        RobotMap.gyro.reset()
+
         m_autoSelected = m_chooser.selected
 //        m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
         println("Auto selected: " + m_autoSelected!!)
-        RobotMap.gyro.reset()
+//        RobotMap.gyro.reset()
         RobotMap.frontRight.selectedSensorPosition = 0
         RobotMap.frontLeft.selectedSensorPosition = 0
 //        follow.initialize()
@@ -120,18 +124,16 @@ class Robot : TimedRobot() {
         // Put default auto code here
     }
 
+
     /**
      * This function is called periodically during operator control.
      */
     override fun teleopPeriodic() {
         drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
-        println(RobotMap.gyro.angle)
-
-//        println()
-//        if(xbox.bButton) {
-//        }
-//        drive.moveArm(xbox.getBumper(GenericHID.Hand.kRight))
-//        drive.toggleCargoInput(xbox.aButtonReleased)
+        println("Angle: " + RobotMap.gyro.angle)
+//        if (xbox.getBumper(GenericHID.Hand.kLeft)) drive.cargoIn()
+//        else if (xbox.getBumper(GenericHID.Hand.kRight)) drive.cargoOut()
+//        else drive.cargoOff()
 
     }
 

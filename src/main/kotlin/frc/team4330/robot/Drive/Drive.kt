@@ -15,39 +15,10 @@ import frc.team4330.robot.IO.RobotMap
  * Add your docs here.
  */
 class Drive {
-
-//    var left = SpeedControllerGroup(RobotMap.frontLeft, RobotMap.backLeft)    //so frontLeft and backLeft wheels move forward/backwards in coordination
-//    var right = SpeedControllerGroup(RobotMap.frontRight, RobotMap.backRight) //so frontRight and backRight wheels move forwards/backwards in coordination
     var drive = DifferentialDrive(RobotMap.frontLeft, RobotMap.frontRight)
 
-//    var cargoInput = DifferentialDrive(RobotMap.inputLeft, RobotMap.inputRight)
-    //Data Storage
-
-    //what is 'inputRunning' :Darren: also I left more notes/questions everywhere
-    var inputRunning = false
-
-    //does 'turn' have a function?
     fun curveDrive(x: Double, y: Double, turn: Boolean) {
         drive.arcadeDrive(x * (-1), y)
     }
-
-
-//    fun moveArm(i: Boolean) {
-//        RobotMap.armSolenoid.set(i)
-//    }
-
-
-//    fun toggleCargoInput(isPressed:Boolean) {
-//        if (isPressed) {
-//            if (!inputRunning) {
-//                inputRunning = true
-//                cargoInput.tankDrive(1.0, 1.0)
-//            }
-//            else {
-//                inputRunning = false
-//                cargoInput.tankDrive(0.0,0.0)
-//            }
-//        }
-//    }
 
 }

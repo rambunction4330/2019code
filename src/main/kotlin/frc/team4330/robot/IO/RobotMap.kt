@@ -7,6 +7,7 @@
 
 package frc.team4330.robot.IO
 
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
@@ -39,25 +40,13 @@ object RobotMap {
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
 
-    //cargo - 3 motors, 1 piston  ///I presume cargo are like motors(wheels)/arms/etc.
-//    var cargoMotorOne = WPI_TalonSRX(10)
-//    var cargoMotorTwo = WPI_TalonSRX(11)
-//    var cargoMotorThree = WPI_TalonSRX(12) //Is this the solenoid?
-//    var cargoSolenoid = Solenoid(13)
+    //cargo - 2 motors
+//    var cargoMotor1 = WPI_TalonSRX(5)
+//    var cargoMotor2 = WPI_TalonSRX(6)
 
-    //input - 2 motors
-//    var inputRight = WPI_TalonSRX(14)
-//    var inputLeft = WPI_TalonSRX(15)
-
-    //what does 'init' do/mean (initialize?)
     init {
-
-
-//      frontRight.set(ControlMode.Position, 1.0, DemandType.ArbitraryFeedForward, 1.0)
-//      frontLeft.set(ControlMode.Position, 1.0)
-//      backRight.follow(frontRight)
-//      backLeft.follow(frontLeft)
 //      RobotCompressor.start()
         frontLeft.setSensorPhase(true)
+        frontRight
     }
 }
