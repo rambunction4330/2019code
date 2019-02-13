@@ -58,11 +58,12 @@ object RobotMap {
     //cargo - 2 motors
     var cargoMotorL = WPI_VictorSPX(-1)
     var cargoMotorR = WPI_VictorSPX(-1)
-    var cargoSolenoid = Solenoid(-1)
+    var ballYeeter = Solenoid(-1)
 
 
 
     fun init() {
+
         frontLeft.setSensorPhase(true)
 
         //driveTrain Init
