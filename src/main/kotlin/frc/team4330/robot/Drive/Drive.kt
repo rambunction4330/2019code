@@ -16,9 +16,22 @@ import frc.team4330.robot.IO.RobotMap
  */
 class Drive {
     var drive = DifferentialDrive(RobotMap.frontLeft, RobotMap.frontRight)
+    var shifted = false
 
     fun curveDrive(x: Double, y: Double, turn: Boolean) {
         drive.arcadeDrive(x * (-1), y)
+    }
+
+    fun toggleShift() {
+        shifted = !shifted
+
+        if (shifted) {
+            RobotMap.shifterL.set(true)
+            RobotMap.shifterR.set(true)
+        } else {
+            RobotMap.shifterL.set(false)
+            RobotMap.shifterR.set(false)
+        }
     }
 
 }

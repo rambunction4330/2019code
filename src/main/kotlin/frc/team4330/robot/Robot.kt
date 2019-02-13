@@ -33,6 +33,7 @@ class Robot : TimedRobot() {
     var xbox = RobotMap.XboxPort
     lateinit var pathfinding : Autopath
     lateinit var follow : VisionFollow
+//    val elevator = Elevator()
 
 
 
@@ -41,7 +42,6 @@ class Robot : TimedRobot() {
      * used for any initialization code.
      */
     override fun robotInit() {
-
 
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto)
         m_chooser.addOption("My Auto", kCustomAuto)
@@ -54,7 +54,7 @@ class Robot : TimedRobot() {
 
         pathfinding = Autopath()
         pathfinding.initialize()
-
+//        elevator.init()
 
 // ELEVATOR TALON SETUP make sure to have limit switches at both end of travels that stop the lift and reset the encoder position.
 
@@ -144,15 +144,23 @@ class Robot : TimedRobot() {
      */
     override fun teleopPeriodic() {
         drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
-        println("Angle: " + RobotMap.gyro.angle)
 
-        if (RobotMap.gyro.rawAccelX < -2 || RobotMap.gyro.rawAccelY < -2 || RobotMap.gyro.rawAccelZ < -2) {
-            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kLeftRumble, 1.0)
-            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kRightRumble, 1.0)
-        } else {
-            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kLeftRumble, 0.0)
-            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kRightRumble, 0.0)
-        }
+        RobotMap.elevatorMain.set(RobotMap.Stick.y)
+
+        if (RobotMap.XboxPort.bButtonReleased) drive.toggleShift()
+
+//        if (RobotMap.Stick.getRawButtonReleased(7)) {
+//            elevator.goToLevel(0)
+//        }
+//        if (RobotMap.Stick.getRawButtonReleased(9)) {
+//            elevator.goToLevel(1)
+//        }
+//        if (RobotMap.Stick.getRawButtonReleased(11)) {
+//            elevator.goToLevel(2)
+//        }
+//        if (RobotMap.Stick.triggerReleased) {
+//            elevator.changeMode()
+//        }
 
 //        if (xbox.getBumper(GenericHID.Hand.kLeft)) drive.cargoIn()
 //        else if (xbox.getBumper(GenericHID.Hand.kRight)) drive.cargoOut()
