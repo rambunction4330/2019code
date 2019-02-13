@@ -46,13 +46,28 @@ class Robot : TimedRobot() {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto)
         m_chooser.addOption("My Auto", kCustomAuto)
         SmartDashboard.putData("Auto choices", m_chooser)
-        RobotMap.backRight.follow(RobotMap.frontRight)
-        RobotMap.backLeft.follow(RobotMap.frontLeft)
+        RobotMap.init()
 
 
 //        RobotMap.gyro.reset()
+
+
         pathfinding = Autopath()
         pathfinding.initialize()
+
+
+// ELEVATOR TALON SETUP make sure to have limit switches at both end of travels that stop the lift and reset the encoder position.
+
+        //val elevatorTalon = TalonSRX(RobotMap.elevatorMainport)
+
+/*        elevatorMain.config_kP(0, RobotConfig.ELEVATOR_TALON_P, 0)
+        elevatorMain.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, 0)
+        elevatorMain.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, 0)
+        elevatorMain.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, 0)
+        elevatorMain.setSensorPhase(true)
+        elevatorMain.configVoltageCompSaturation(12.0, 0)
+        elevatorMain.enableVoltageCompensation(true)
+        elevatorMain.setSelectedSensorPosition(0, 0, 0)*/
     }
 
     /**
@@ -115,8 +130,6 @@ class Robot : TimedRobot() {
 
 //        follow.visionDrive(drive)
 
-//        pathfinding.autoPath(drive)
-
 
         pathfinding.autoPath(drive)
 
@@ -126,14 +139,25 @@ class Robot : TimedRobot() {
 
 
     /**
-     * This function is called periodically during operator control.
+     * This function is called periodically durin
+    g operator control.
      */
     override fun teleopPeriodic() {
         drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
         println("Angle: " + RobotMap.gyro.angle)
+
+        if (RobotMap.gyro.rawAccelX < -2 || RobotMap.gyro.rawAccelY < -2 || RobotMap.gyro.rawAccelZ < -2) {
+            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kLeftRumble, 1.0)
+            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kRightRumble, 1.0)
+        } else {
+            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kLeftRumble, 0.0)
+            RobotMap.XboxPort.setRumble(GenericHID.RumbleType.kRightRumble, 0.0)
+        }
+
 //        if (xbox.getBumper(GenericHID.Hand.kLeft)) drive.cargoIn()
 //        else if (xbox.getBumper(GenericHID.Hand.kRight)) drive.cargoOut()
 //        else drive.cargoOff()
+
 
     }
 
@@ -141,7 +165,6 @@ class Robot : TimedRobot() {
      * This function is called periodically during test mode.
      */
     override fun testPeriodic() {}
-
     companion object {
         private val kDefaultAuto = "Default"
         private val kCustomAuto = "My Auto"
