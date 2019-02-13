@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.GenericHID
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj.command.Scheduler
 import frc.team4330.robot.Drive.Drive
 import frc.team4330.robot.IO.RobotMap
+import frc.team4330.robot.subsystems.Shooter
 import frc.team4330.robot.Motion.Autopath
 import frc.team4330.robot.Vision.VisionFollow
 
@@ -25,6 +27,16 @@ import frc.team4330.robot.Vision.VisionFollow
  * project.
  */
 class Robot : TimedRobot() {
+
+    companion object {
+       //look at last year's code
+
+        val shooter: Shooter = Shooter() //ecks to the dee
+        // it's the intake
+
+        val mRobot: Scheduler = Scheduler.getInstance() // this is the scheduluer; you add commands to it that it will execute, simple as that. Don't overthink it
+
+    }
 
 
     private var m_autoSelected: String? = null
@@ -165,8 +177,10 @@ class Robot : TimedRobot() {
      * This function is called periodically during test mode.
      */
     override fun testPeriodic() {}
+    /*
     companion object {
         private val kDefaultAuto = "Default"
         private val kCustomAuto = "My Auto"
     }
+    */
 }

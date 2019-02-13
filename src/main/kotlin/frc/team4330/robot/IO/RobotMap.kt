@@ -40,12 +40,12 @@ object RobotMap {
 
     //vision
 
+    //pneumatics
+    val ballYeeter: Solenoid = Solenoid(0)
+
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
-    //optional USB
-//    var gyro = AHRS(SerialPort.Port.kUSB)
-
 
     //cargo - 2 motors
 //    var cargoMotor1 = WPI_TalonSRX(5)
@@ -59,6 +59,7 @@ object RobotMap {
 //    var elevatorEncoder2
 
     fun init() {
+
         frontLeft.setSensorPhase(true)
 
         //driveTrain Init
