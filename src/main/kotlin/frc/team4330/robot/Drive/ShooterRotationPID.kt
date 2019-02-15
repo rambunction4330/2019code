@@ -10,6 +10,8 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
     lateinit var encoder: Encoder
     var target = 0.0
+
+    var initVel = 0.0
     //TODO: Look for correlation between motor rotation and
 
     /*  D   A   T   A
@@ -20,7 +22,7 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
 
     fun init() {
-        encoder = Encoder(RobotMap.elevatorEncoder, RobotMap.elevatorEncoder)
+        encoder = Encoder(RobotMap.cargoEncoder, RobotMap.cargoEncoder)
 
         setAbsoluteTolerance(.2)
         pidController.setContinuous(false) //manipulating raw internal PID Controller
@@ -32,8 +34,9 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
     }
 
     fun setRotationFromDistance(distance: Double, height: Double) {
-
-        setRotation(Math.toDegrees(Math.PI / 2 - Math.atan(distance/height)))
+//        var angle = Math.atan((1-Math.sqrt(1+(64/initVel^2)*("life is pain"))))
+var angle = 0.0
+        setRotation(Math.toDegrees(angle))
     }
 
     fun setRotation(Degrees: Double) {
@@ -43,6 +46,10 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
         if (Degrees > 75.0) target = 75.0
 
         setpoint = target * (5.75/80)
+    }
+
+    fun getCurrentAngle() : Double {
+        return encoder.distance*(80/5.75)
     }
 
 

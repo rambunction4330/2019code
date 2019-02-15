@@ -9,7 +9,7 @@ class NetworkData {
 
     fun init() {
         table.loadEntries("", "")
-        table.
+//        table.
     }
 
 }

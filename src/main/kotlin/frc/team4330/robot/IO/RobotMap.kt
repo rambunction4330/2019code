@@ -21,7 +21,7 @@ object RobotMap {
 
     //input (of xbox controller)
     var XboxPort = XboxController(0)
-    var Stick = Joystick(1)
+    var Stick = Joystick(4)
 
     //command
     var RobotCompressor = Compressor(0)
@@ -54,7 +54,7 @@ object RobotMap {
 
 
     //cargo - 2 motors
-    var cargoSpool = WPI_TalonSRX(2) //
+    var cargoSpool = WPI_TalonSRX(2)
     var cargoEncoder = cargoSpool.getSelectedSensorPosition(0)
 
     var cargoMotorL = WPI_VictorSPX(10)
@@ -78,6 +78,7 @@ object RobotMap {
         //elevator Init
         elevatorSlave1.follow(elevatorMain)
         elevatorSlave2.follow(elevatorMain)
+
 
         //Start Compressor
         RobotCompressor.start()
