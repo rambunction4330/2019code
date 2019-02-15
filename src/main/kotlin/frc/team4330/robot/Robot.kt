@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team4330.robot.Drive.Drive
+import frc.team4330.robot.Drive.ShooterRotationPID
 import frc.team4330.robot.IO.RobotMap
 import frc.team4330.robot.Motion.Autopath
 import frc.team4330.robot.Vision.VisionFollow
@@ -46,6 +47,8 @@ class Robot : TimedRobot() {
     var xbox = RobotMap.XboxPort
     lateinit var pathfinding : Autopath
     lateinit var follow : VisionFollow
+
+    lateinit var shooterAngler : ShooterRotationPID
 //    val elevator = Elevator()
 
 
@@ -67,20 +70,10 @@ class Robot : TimedRobot() {
 
         pathfinding = Autopath()
         pathfinding.initialize()
-//        elevator.init()
+        shooterAngler = ShooterRotationPID()
 
-// ELEVATOR TALON SETUP make sure to have limit switches at both end of travels that stop the lift and reset the encoder position.
-
-        //val elevatorTalon = TalonSRX(RobotMap.elevatorMainport)
-
-/*        elevatorMain.config_kP(0, RobotConfig.ELEVATOR_TALON_P, 0)
-        elevatorMain.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, 0)
-        elevatorMain.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, 0)
-        elevatorMain.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, 0)
-        elevatorMain.setSensorPhase(true)
-        elevatorMain.configVoltageCompSaturation(12.0, 0)
-        elevatorMain.enableVoltageCompensation(true)
-        elevatorMain.setSelectedSensorPosition(0, 0, 0)*/
+//      elevator.init()
+        shooterAngler.init()
     }
 
     /**
@@ -162,6 +155,24 @@ class Robot : TimedRobot() {
 
         if (RobotMap.XboxPort.bButtonReleased) drive.toggleShift()
 
+        //Shooter Collection
+        if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kLeft)) shooter.succ()
+        else if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kRight)) shooter.spit()
+        else shooter.stopLips()
+
+        //Shooter AutoTarget
+        //Rocket lvl 1
+        if (RobotMap.Stick.getRawButtonReleased(5)) shooterAngler.setRotationFromDistance(-1.0, 26.8)
+        //Rocket lvl 2
+        else if (RobotMap.Stick.getRawButtonReleased(3)) shooterAngler.setRotationFromDistance(-1.0, 54.8)
+        //Rocket lvl 3
+        else if (RobotMap.Stick.getRawButtonReleased(6)) shooterAngler.setRotationFromDistance(-1.0, 82.8)
+        //Hab lvl
+        else if (RobotMap.Stick.getRawButtonReleased(4)) shooterAngler.setRotationFromDistance(-1.0, 42.0)
+        //Return to Default
+        else if (RobotMap.Stick.getRawButtonReleased(2)) shooterAngler.setRotation(1.0)
+
+
 //        if (RobotMap.Stick.getRawButtonReleased(7)) {
 //            elevator.goToLevel(0)
 //        }
@@ -175,9 +186,6 @@ class Robot : TimedRobot() {
 //            elevator.changeMode()
 //        }
 
-//        if (xbox.getBumper(GenericHID.Hand.kLeft)) drive.cargoIn()
-//        else if (xbox.getBumper(GenericHID.Hand.kRight)) drive.cargoOut()
-//        else drive.cargoOff()
 
 
     }

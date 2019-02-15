@@ -9,11 +9,6 @@ import frc.team4330.robot.IO.RobotMap
 class Elevator : PIDSubsystem("Elevator", 1.0, 0.0, 0.2, 0.005) {
 
 
-    // Sets PID variables
-    private var Kp = 0.0
-    private var Ki = 0.0
-    private var Kd = 0.0
-
     val levelsEngage = listOf(0.207490889, 1.52788745542, 2.84828402184)
     val levelsRemove = listOf(0.01886280808, 1.3392593745, 2.65965594092)
     var isEngaged = false

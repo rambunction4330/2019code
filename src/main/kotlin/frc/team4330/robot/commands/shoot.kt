@@ -5,6 +5,7 @@ import frc.team4330.robot.subsystems.Shooter
 
 class shoot : Command() {
     val shooter: Shooter
+
     init {
 
         shooter = Shooter()

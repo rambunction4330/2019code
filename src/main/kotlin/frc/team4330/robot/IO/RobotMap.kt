@@ -50,15 +50,17 @@ object RobotMap {
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
-
     //optional USB
 //    var gyro = AHRS(SerialPort.Port.kUSB)
 
 
     //cargo - 2 motors
+    var cargoSpool = WPI_TalonSRX(-1) //
+    var cargoEncoder = cargoSpool.getSelectedSensorPosition(0)
     var cargoMotorL = WPI_VictorSPX(-1)
     var cargoMotorR = WPI_VictorSPX(-1)
     var ballYeeter = Solenoid(-1)
+
 
 
 
@@ -72,11 +74,14 @@ object RobotMap {
         midLeft.follow(frontLeft)
         backLeft.follow(frontLeft)
 
+
         //elevator Init
         elevatorSlave1.follow(elevatorMain)
         elevatorSlave2.follow(elevatorMain)
 
         //Start Compressor
         RobotCompressor.start()
+
+
     }
 }

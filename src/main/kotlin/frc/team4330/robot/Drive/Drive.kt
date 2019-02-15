@@ -11,15 +11,12 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import frc.team4330.robot.IO.RobotMap
 
 
-/**
- * Add your docs here.
- */
 class Drive {
     var drive = DifferentialDrive(RobotMap.frontLeft, RobotMap.frontRight)
     var shifted = false
 
     fun curveDrive(x: Double, y: Double, turn: Boolean) {
-        drive.arcadeDrive(x * (-1), y)
+        drive.arcadeDrive(x, y * (-1))
     }
 
     fun toggleShift() {
@@ -27,10 +24,10 @@ class Drive {
 
         if (shifted) {
             RobotMap.shifterL.set(true)
-            RobotMap.shifterR.set(true)
+            RobotMap.shifterR.set(false)
         } else {
             RobotMap.shifterL.set(false)
-            RobotMap.shifterR.set(false)
+            RobotMap.shifterR.set(true)
         }
     }
 
