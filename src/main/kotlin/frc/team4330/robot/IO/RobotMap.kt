@@ -24,25 +24,26 @@ object RobotMap {
     var Stick = Joystick(1)
 
     //command
-    var RobotCompressor = Compressor(-1)
+    var RobotCompressor = Compressor(0)
 
     //wheels
-    var frontRight = WPI_TalonSRX(-1) //not slaves (SRX)
-    var frontLeft = WPI_TalonSRX(-1)
-    var midRight = WPI_VictorSPX(-1) //slaves (SPX)
-    var midLeft = WPI_VictorSPX(-1)
-    var backRight = WPI_VictorSPX(-1)
-    var backLeft = WPI_VictorSPX(-1)
+    var frontRight = WPI_TalonSRX(6) //not slaves (SRX)
+    var frontLeft = WPI_TalonSRX(13)
+
+    var midRight = WPI_VictorSPX(4) //slaves (SPX)
+    var midLeft = WPI_VictorSPX(9)
+    var backRight = WPI_VictorSPX(8)
+    var backLeft = WPI_VictorSPX(3)
 
     //shifter
-    val shifterL = Solenoid(-1)
-    val shifterR = Solenoid(-1)
+    val shifterL = Solenoid(0)
+    val shifterR = Solenoid(1)
 
 
     //elevator
-    var elevatorMain = WPI_TalonSRX(-1)
-    var elevatorSlave1 = WPI_VictorSPX(-1)
-    var elevatorSlave2 = WPI_VictorSPX(-1)
+    var elevatorMain = WPI_TalonSRX(5)
+    var elevatorSlave1 = WPI_TalonSRX(7)
+    var elevatorSlave2 = WPI_VictorSPX(12)
     var elevatorEncoder = elevatorMain.getSelectedSensorPosition(0)
 
     //vision input
@@ -50,16 +51,15 @@ object RobotMap {
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
-    //optional USB
-//    var gyro = AHRS(SerialPort.Port.kUSB)
 
 
     //cargo - 2 motors
-    var cargoSpool = WPI_TalonSRX(-1) //
+    var cargoSpool = WPI_TalonSRX(2) //
     var cargoEncoder = cargoSpool.getSelectedSensorPosition(0)
-    var cargoMotorL = WPI_VictorSPX(-1)
-    var cargoMotorR = WPI_VictorSPX(-1)
-    var ballYeeter = Solenoid(-1)
+
+    var cargoMotorL = WPI_VictorSPX(10)
+    var cargoMotorR = WPI_VictorSPX(11)
+    var ballPusher = Solenoid(2)
 
 
 

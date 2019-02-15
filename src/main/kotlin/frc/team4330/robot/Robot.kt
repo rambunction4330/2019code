@@ -157,8 +157,14 @@ class Robot : TimedRobot() {
 
         //Shooter Collection
         if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kLeft)) shooter.succ()
-        else if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kRight)) shooter.spit()
-        else shooter.stopLips()
+        else if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kRight)){
+            RobotMap.ballPusher.set(true)
+            shooter.spit()
+        }
+        else {
+            RobotMap.ballPusher.set(false)
+            shooter.stopLips()
+        }
 
         //Shooter AutoTarget
         //Rocket lvl 1
