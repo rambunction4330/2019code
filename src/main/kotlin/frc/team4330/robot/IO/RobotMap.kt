@@ -8,10 +8,13 @@
 package frc.team4330.robot.IO
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.*
+import java.net.Socket
+import java.net.SocketAddress
 import javax.sound.sampled.Port
 
 
@@ -34,8 +37,6 @@ object RobotMap {
     var midLeft = WPI_VictorSPX(9)
     var backRight = WPI_VictorSPX(8)
     var backLeft = WPI_VictorSPX(3)
-    var leftEncoder = frontLeft.getSelectedSensorPosition(0)
-    var rightEncoder = frontRight.getSelectedSensorPosition(0)
 
     //shifter
     val shifterL = Solenoid(0)
@@ -47,12 +48,10 @@ object RobotMap {
     var elevatorSlave1 = WPI_TalonSRX(7)
     var elevatorSlave2 = WPI_VictorSPX(12)
 
-    //WRONG ENCODER TYPE
-//    var elevatorEncoder = elevatorMain.getSelectedSensorPosition(0)
-
 
     //vision input
-
+    val ElevatorSocket = Socket("10.40.30.20", 9001)
+    val ShooterSocket = Socket("10.40.30.20", 9002)
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
@@ -61,9 +60,6 @@ object RobotMap {
     //cargo - 2 motors
     var cargoSpool = WPI_TalonSRX(2)
 
-    //WRONG ENCODER TYPE
-//    var cargoEncoder = Encoder(cargoSpool.getSelectedSensorPosition(0), cargoSpool.getSelectedSensorPosition(0))
-    var abc = Encoder(0, 1, false, CounterBase.EncodingType.k4X)
 
     var cargoMotorL = WPI_VictorSPX(10)
     var cargoMotorR = WPI_VictorSPX(11)
@@ -82,9 +78,12 @@ object RobotMap {
         midLeft.follow(frontLeft)
         backLeft.follow(frontLeft)
 
-
+        elevatorMain.selectedSensorPosition = 0
+        cargoSpool.selectedSensorPosition = 0
         //elevator Init
         elevatorSlave1.follow(elevatorMain)
         elevatorSlave2.follow(elevatorMain)
+
+//        ElevatorSocket.getOutputStream()
     }
 }

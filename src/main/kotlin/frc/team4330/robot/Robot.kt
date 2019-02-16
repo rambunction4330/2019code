@@ -49,7 +49,7 @@ class Robot : TimedRobot() {
     lateinit var pathfinding : Autopath
     lateinit var follow : VisionFollow
     lateinit var shooter : Shooter
-    val shooterAngler = ShooterRotationPID()
+//    val shooterAngler = ShooterRotationPID()
 
     val elevator = Elevator()
 
@@ -73,7 +73,7 @@ class Robot : TimedRobot() {
         pathfinding = Autopath()
         pathfinding.initialize()
         elevator.init()
-        shooterAngler.init()
+//        shooterAngler.init()
     }
 
     /**
@@ -149,28 +149,16 @@ class Robot : TimedRobot() {
     g operator control.
      */
     override fun teleopPeriodic() {
-        drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
+        drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kRight) <= 0.5)
 
 //        RobotMap.elevatorMain.set(RobotMap.XboxPort.getY(GenericHID.Hand.kRight))
 
-        println("base Pos: " + RobotMap.elevatorMain.selectedSensorPosition)
-        println("0 pos: " + RobotMap.elevatorMain.getSelectedSensorPosition(0))
-        println("1 pos: " + RobotMap.elevatorMain.getSelectedSensorPosition(1))
-        println("2 pos: " + RobotMap.elevatorMain.getSelectedSensorPosition(2))
+//        println("\nelevator Rotations: " + (RobotMap.elevatorMain.selectedSensorPosition as Double) / 4096)
+//        println("Shooter Rotations: " + (RobotMap.cargoSpool.selectedSensorPosition as Double) / 4096)
 
-        if (RobotMap.XboxPort.getBumper(GenericHID.Hand.kRight)) {
-            RobotMap.cargoMotorR.set(1.0)
-            RobotMap.cargoMotorL.set(1.0)
-        } else if (RobotMap.XboxPort.getBumper(GenericHID.Hand.kLeft)) {
-            RobotMap.cargoMotorL.set(-0.2)
-            RobotMap.cargoMotorR.set(-0.2)
-        } else {
-            RobotMap.cargoMotorL.set(0.0)
-            RobotMap.cargoMotorR.set(0.0)
-        }
-
-        if (RobotMap.XboxPort.backButton) RobotMap.elevatorMain.set(-0.3)
-        else if (RobotMap.XboxPort.startButton) RobotMap.elevatorMain.set(0.3)
+//        if (RobotMap.XboxPort.getBumper(GenericHID.Hand.kRight)) RobotMap.elevatorMain.set(0.3)
+//        else if (RobotMap.XboxPort.getBumper(GenericHID.Hand.kLeft)) RobotMap.elevatorMain.set(-0.3)
+//        else RobotMap.elevatorMain.set(0.0)
 
         RobotMap.cargoSpool.set(RobotMap.Stick.y)
 
@@ -182,41 +170,44 @@ class Robot : TimedRobot() {
 
 
         //Shooter Collection
-        if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kLeft)) shooter.succ()
-        else if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kRight)){
-            RobotMap.ballPusher.set(true)
-            shooter.spit()
+        if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kRight) > 0.8) {
+            RobotMap.cargoMotorR.set(1.0)
+            RobotMap.cargoMotorL.set(1.0)
+        }
+        else if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kLeft) > 0.8) {
+            RobotMap.cargoMotorR.set(-0.6)
+            RobotMap.cargoMotorL.set(-0.6)
         }
         else {
-            RobotMap.ballPusher.set(false)
-            shooter.stopLips()
+            RobotMap.cargoMotorR.set(0.0)
+            RobotMap.cargoMotorL.set(0.0)
         }
 
 /**        Shooter AutoTarget **/
 //        Rocket lvl 1
-//        if (RobotMap.Stick.getRawButtonReleased(5)) shooterAngler.setRotationFromDistance(-1.0, 26.8)
+//        if (RobotMap.Stick.getRawButtonReleased(5)) shooterAngler.setRotationFromDistance(RobotMap.cheddar.getDistance() as Double / 2.54, 26.8)
 //        Rocket lvl 2
-//        else if (RobotMap.Stick.getRawButtonReleased(3)) shooterAngler.setRotationFromDistance(-1.0, 54.8)
+//        else if (RobotMap.Stick.getRawButtonReleased(3)) shooterAngler.setRotationFromDistance(RobotMap.cheddar.getDistance() as Double / 2.54, 54.8)
 //        Rocket lvl 3
-//        else if (RobotMap.Stick.getRawButtonReleased(6)) shooterAngler.setRotationFromDistance(-1.0, 82.8)
+//        else if (RobotMap.Stick.getRawButtonReleased(6)) shooterAngler.setRotationFromDistance(RobotMap.cheddar.getDistance() as Double / 2.54, 82.8)
 //        Hab lvl
-//        else if (RobotMap.Stick.getRawButtonReleased(4)) shooterAngler.setRotationFromDistance(-1.0, 42.0)
+//        else if (RobotMap.Stick.getRawButtonReleased(4)) shooterAngler.setRotationFromDistance(RobotMap.cheddar.getDistance() as Double / 2.54, 42.0)
 //        Return to Default
 //        else if (RobotMap.Stick.getRawButtonReleased(2)) shooterAngler.setRotation(1.0)
 
 
-//        if (RobotMap.Stick.getRawButtonReleased(7)) {
-//            elevator.goToLevel(0)
-//        }
-//        if (RobotMap.Stick.getRawButtonReleased(9)) {
-//            elevator.goToLevel(1)
-//        }
-//        if (RobotMap.Stick.getRawButtonReleased(11)) {
-//            elevator.goToLevel(2)
-//        }
-//        if (RobotMap.Stick.triggerReleased) {
-//            elevator.changeMode()
-//        }
+        if (RobotMap.Stick.getRawButtonReleased(7)) {
+            elevator.goToLevel(0)
+        }
+        else if (RobotMap.Stick.getRawButtonReleased(9)) {
+            elevator.goToLevel(1)
+        }
+        else if (RobotMap.Stick.getRawButtonReleased(11)) {
+            elevator.goToLevel(2)
+        }
+        else if (RobotMap.Stick.getRawButtonReleased(12)) {
+            elevator.changeMode()
+        }
 
 
 

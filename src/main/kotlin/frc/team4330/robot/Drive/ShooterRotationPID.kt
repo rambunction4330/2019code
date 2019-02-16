@@ -10,9 +10,7 @@ import java.awt.Robot
 class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
     var target = 0.0
-
     var initVel = 0.0
-    //TODO: Look for correlation between motor rotation and
 
     /*  D   A   T   A
         ~5.75 rotations for 80 Degrees of motion
@@ -22,21 +20,15 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
 
     fun init() {
-
-
         setAbsoluteTolerance(.2)
         pidController.setContinuous(false) //manipulating raw internal PID Controller
 
-//        encoder.pidSourceType  = PIDSourceType.kDisplacement
-//        encoder.reset()
-//        encoder.setMaxPeriod(5.75)
         enable()
     }
 
     fun setRotationFromDistance(distance: Double, height: Double) {
         var angle = Math.atan((1-Math.sqrt(1+(64/(Math.pow(initVel,2.0))) * (13.02-height - (16*Math.pow(distance, 2.0))/Math.pow(initVel, 2.0))))/((32.2*distance)/Math.pow(initVel, 2.0)))
 
-//        var angle = 0.0
         setRotation(Math.toDegrees(angle))
     }
 
@@ -55,17 +47,14 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
 
     override fun initDefaultCommand() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-
+        init()
     }
 
     override fun returnPIDInput(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        return RobotMap.cargoSpool.getSelectedSensorPosition(0) as Double
+        return RobotMap.cargoSpool.getSelectedSensorPosition(0) as Double / 4096
     }
 
     override fun usePIDOutput(output: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         RobotMap.cargoSpool.set(output)
     }
 }
