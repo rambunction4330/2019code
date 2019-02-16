@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.*
+import javax.sound.sampled.Port
 
 
 /**
@@ -29,11 +30,12 @@ object RobotMap {
     //wheels
     var frontRight = WPI_TalonSRX(6) //not slaves (SRX)
     var frontLeft = WPI_TalonSRX(13)
-
     var midRight = WPI_VictorSPX(4) //slaves (SPX)
     var midLeft = WPI_VictorSPX(9)
     var backRight = WPI_VictorSPX(8)
     var backLeft = WPI_VictorSPX(3)
+    var leftEncoder = frontLeft.getSelectedSensorPosition(0)
+    var rightEncoder = frontRight.getSelectedSensorPosition(0)
 
     //shifter
     val shifterL = Solenoid(0)
@@ -44,7 +46,10 @@ object RobotMap {
     var elevatorMain = WPI_TalonSRX(5)
     var elevatorSlave1 = WPI_TalonSRX(7)
     var elevatorSlave2 = WPI_VictorSPX(12)
-    var elevatorEncoder = elevatorMain.getSelectedSensorPosition(0)
+
+    //WRONG ENCODER TYPE
+//    var elevatorEncoder = elevatorMain.getSelectedSensorPosition(0)
+
 
     //vision input
 
@@ -55,13 +60,16 @@ object RobotMap {
 
     //cargo - 2 motors
     var cargoSpool = WPI_TalonSRX(2)
-    var cargoEncoder = cargoSpool.getSelectedSensorPosition(0)
+
+    //WRONG ENCODER TYPE
+//    var cargoEncoder = Encoder(cargoSpool.getSelectedSensorPosition(0), cargoSpool.getSelectedSensorPosition(0))
+    var abc = Encoder(0, 1, false, CounterBase.EncodingType.k4X)
 
     var cargoMotorL = WPI_VictorSPX(10)
     var cargoMotorR = WPI_VictorSPX(11)
     var ballPusher = Solenoid(2)
 
-
+    var cheddar = LidarLite(I2C.Port.kOnboard)
 
 
     fun init() {
@@ -78,11 +86,5 @@ object RobotMap {
         //elevator Init
         elevatorSlave1.follow(elevatorMain)
         elevatorSlave2.follow(elevatorMain)
-
-
-        //Start Compressor
-        RobotCompressor.start()
-
-
     }
 }

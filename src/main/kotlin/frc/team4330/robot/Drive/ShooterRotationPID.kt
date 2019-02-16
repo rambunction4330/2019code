@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.Encoder
 import edu.wpi.first.wpilibj.PIDSourceType
 import edu.wpi.first.wpilibj.command.PIDSubsystem
 import frc.team4330.robot.IO.RobotMap
+import java.awt.Robot
 
 class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
-    lateinit var encoder: Encoder
     var target = 0.0
 
     var initVel = 0.0
@@ -22,20 +22,21 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
 
 
     fun init() {
-        encoder = Encoder(RobotMap.cargoEncoder, RobotMap.cargoEncoder)
+
 
         setAbsoluteTolerance(.2)
         pidController.setContinuous(false) //manipulating raw internal PID Controller
 
-        encoder.pidSourceType  = PIDSourceType.kDisplacement
-        encoder.reset()
-        encoder.setMaxPeriod(5.75)
+//        encoder.pidSourceType  = PIDSourceType.kDisplacement
+//        encoder.reset()
+//        encoder.setMaxPeriod(5.75)
         enable()
     }
 
     fun setRotationFromDistance(distance: Double, height: Double) {
-//        var angle = Math.atan((1-Math.sqrt(1+(64/initVel^2)*("life is pain"))))
-var angle = 0.0
+        var angle = Math.atan((1-Math.sqrt(1+(64/(Math.pow(initVel,2.0))) * (13.02-height - (16*Math.pow(distance, 2.0))/Math.pow(initVel, 2.0))))/((32.2*distance)/Math.pow(initVel, 2.0)))
+
+//        var angle = 0.0
         setRotation(Math.toDegrees(angle))
     }
 
@@ -49,7 +50,7 @@ var angle = 0.0
     }
 
     fun getCurrentAngle() : Double {
-        return encoder.distance*(80/5.75)
+        return RobotMap.cargoSpool.getSelectedSensorPosition(0)*(80/5.75)
     }
 
 
@@ -60,11 +61,11 @@ var angle = 0.0
 
     override fun returnPIDInput(): Double {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        return encoder.distance
+        return RobotMap.cargoSpool.getSelectedSensorPosition(0) as Double
     }
 
     override fun usePIDOutput(output: Double) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        RobotMap.elevatorEncoder
+        RobotMap.cargoSpool.set(output)
     }
 }

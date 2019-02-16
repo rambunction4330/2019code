@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team4330.robot.Drive.Drive
+import frc.team4330.robot.Drive.Elevator
 import frc.team4330.robot.Drive.ShooterRotationPID
 import frc.team4330.robot.IO.RobotMap
 import frc.team4330.robot.Motion.Autopath
@@ -47,10 +48,10 @@ class Robot : TimedRobot() {
     var xbox = RobotMap.XboxPort
     lateinit var pathfinding : Autopath
     lateinit var follow : VisionFollow
-//    lateinit var shooter : Shooter
-//    lateinit var shooterAngler : ShooterRotationPID
+    lateinit var shooter : Shooter
+    val shooterAngler = ShooterRotationPID()
 
-//    val elevator = Elevator()
+    val elevator = Elevator()
 
 
 
@@ -66,15 +67,13 @@ class Robot : TimedRobot() {
         RobotMap.init()
 
 
-//        RobotMap.gyro.reset()
+        RobotMap.gyro.reset()
 
-//        shooter = Shooter()
+        shooter = Shooter()
         pathfinding = Autopath()
         pathfinding.initialize()
-//        shooterAngler = ShooterRotationPID()
-//      elevator.init()
-
-//        shooterAngler.init()
+        elevator.init()
+        shooterAngler.init()
     }
 
     /**
@@ -108,9 +107,9 @@ class Robot : TimedRobot() {
         RobotMap.gyro.reset()
 
         m_autoSelected = m_chooser.selected
-//        m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+        m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
         println("Auto selected: " + m_autoSelected!!)
-//        RobotMap.gyro.reset()
+        RobotMap.gyro.reset()
         RobotMap.frontRight.selectedSensorPosition = 0
         RobotMap.frontLeft.selectedSensorPosition = 0
 //        follow.initialize()
@@ -150,9 +149,14 @@ class Robot : TimedRobot() {
     g operator control.
      */
     override fun teleopPeriodic() {
-        drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
+        drive.curveDrive(xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kLeft) <= 0.5)
 
-        RobotMap.elevatorMain.set(RobotMap.XboxPort.getY(GenericHID.Hand.kRight))
+//        RobotMap.elevatorMain.set(RobotMap.XboxPort.getY(GenericHID.Hand.kRight))
+
+        println("base Pos: " + RobotMap.elevatorMain.selectedSensorPosition)
+        println("0 pos: " + RobotMap.elevatorMain.getSelectedSensorPosition(0))
+        println("1 pos: " + RobotMap.elevatorMain.getSelectedSensorPosition(1))
+        println("2 pos: " + RobotMap.elevatorMain.getSelectedSensorPosition(2))
 
         if (RobotMap.XboxPort.getBumper(GenericHID.Hand.kRight)) {
             RobotMap.cargoMotorR.set(1.0)
@@ -165,10 +169,10 @@ class Robot : TimedRobot() {
             RobotMap.cargoMotorR.set(0.0)
         }
 
-        RobotMap.cargoSpool.set(RobotMap.Stick.getY())
+        if (RobotMap.XboxPort.backButton) RobotMap.elevatorMain.set(-0.3)
+        else if (RobotMap.XboxPort.startButton) RobotMap.elevatorMain.set(0.3)
 
-        println("Cargo: " + RobotMap.cargoSpool.getSelectedSensorPosition(0))
-        println("Elevator: " + RobotMap.elevatorMain.getSelectedSensorPosition(0))
+        RobotMap.cargoSpool.set(RobotMap.Stick.y)
 
         if (RobotMap.Stick.trigger) RobotMap.ballPusher.set(true)
         else RobotMap.ballPusher.set(false)
@@ -178,26 +182,26 @@ class Robot : TimedRobot() {
 
 
         //Shooter Collection
-//        if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kLeft)) shooter.succ()
-//        else if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kRight)){
-//            RobotMap.ballPusher.set(true)
-////            shooter.spit()
-//        }
-//        else {
-//            RobotMap.ballPusher.set(false)
-////            shooter.stopLips()
-//        }
+        if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kLeft)) shooter.succ()
+        else if (RobotMap.XboxPort.getBumperReleased(GenericHID.Hand.kRight)){
+            RobotMap.ballPusher.set(true)
+            shooter.spit()
+        }
+        else {
+            RobotMap.ballPusher.set(false)
+            shooter.stopLips()
+        }
 
-        //Shooter AutoTarget
-        //Rocket lvl 1
+/**        Shooter AutoTarget **/
+//        Rocket lvl 1
 //        if (RobotMap.Stick.getRawButtonReleased(5)) shooterAngler.setRotationFromDistance(-1.0, 26.8)
-//        //Rocket lvl 2
+//        Rocket lvl 2
 //        else if (RobotMap.Stick.getRawButtonReleased(3)) shooterAngler.setRotationFromDistance(-1.0, 54.8)
-//        //Rocket lvl 3
+//        Rocket lvl 3
 //        else if (RobotMap.Stick.getRawButtonReleased(6)) shooterAngler.setRotationFromDistance(-1.0, 82.8)
-//        //Hab lvl
+//        Hab lvl
 //        else if (RobotMap.Stick.getRawButtonReleased(4)) shooterAngler.setRotationFromDistance(-1.0, 42.0)
-//        //Return to Default
+//        Return to Default
 //        else if (RobotMap.Stick.getRawButtonReleased(2)) shooterAngler.setRotation(1.0)
 
 
