@@ -9,6 +9,8 @@ package frc.team4330.robot.IO
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
@@ -26,6 +28,11 @@ object RobotMap {
     //input (of xbox controller)
     var XboxPort = XboxController(0)
     var Stick = Joystick(4)
+
+    //ICE Systems
+    val elevatorTopLimit = DigitalInput(1)
+    val elevatorBottomLimit = DigitalInput(2)
+    val shooterBottomLimit = DigitalInput(0)
 
     //command
     var RobotCompressor = Compressor(0)
@@ -50,8 +57,8 @@ object RobotMap {
 
 
     //vision input
-    val ElevatorSocket = Socket("10.40.30.20", 9001)
-    val ShooterSocket = Socket("10.40.30.20", 9002)
+//    val ElevatorSocket = Socket("10.40.30.20", 9001)
+//    val ShooterSocket = Socket("10.40.30.20", 9002)
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
     var gyro = AHRS(I2C.Port.kMXP)
