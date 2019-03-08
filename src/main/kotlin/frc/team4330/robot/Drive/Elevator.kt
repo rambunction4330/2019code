@@ -15,16 +15,16 @@ class Elevator : PIDSubsystem("Elevator", 0.8, 0.0, 0.95 , 0.005) {
     var isEngaged = false
     var level = 0
 
-    var motor = RobotMap.elevatorMain
+//    var motor = RobotMap.elevatorMain
     var offset = 0.0
     //21.2057503875 in / rotation
 
     fun topHit() {
-        offset = levelsEngage.get(2)*4096 - RobotMap.elevatorMain.getSelectedSensorPosition(0)
+//        offset = levelsEngage.get(2)*4096 - RobotMap.elevatorMain.getSelectedSensorPosition(0)
     }
 
     fun bottomHit() {
-        offset = 0.0 - RobotMap.elevatorMain.getSelectedSensorPosition(0)
+//        offset = 0.0 - RobotMap.elevatorMain.getSelectedSensorPosition(0)
     }
 
     fun setGoal(num: Double) {
@@ -50,16 +50,17 @@ class Elevator : PIDSubsystem("Elevator", 0.8, 0.0, 0.95 , 0.005) {
 
 
     fun setElevatorSpeed_Manual(input: Double) {
-        motor.set(input)
+//        motor.set(input)
     }
 
     override fun returnPIDInput(): Double {
         //returns the input for the pid loop, so if this Subsystem was based off of a gyro, then it should return the angle of the gyro.
-        return (RobotMap.elevatorMain.getSelectedSensorPosition(0) + 0.0 + offset)/4096
+//        return (RobotMap.elevatorMain.getSelectedSensorPosition(0) + 0.0 + offset)/4096
+        return 0.0
     }
 
     override fun usePIDOutput(output: Double) {
-        motor.set(output) // this is where the computed output value from the PIDController is applied to the motor
+//        motor.set(output) // this is where the computed output value from the PIDController is applied to the motor
     }
 
 

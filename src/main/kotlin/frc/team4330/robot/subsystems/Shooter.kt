@@ -9,17 +9,17 @@ class Shooter : SubsystemBase(){
     }
 
     fun succ() {                            //succs in cube
-            RobotMap.cargoMotorL.set(ControlMode.PercentOutput, -0.3)
-            RobotMap.cargoMotorR.set(ControlMode.PercentOutput, 0.3)
+//            RobotMap.cargoMotorL.set(ControlMode.PercentOutput, -0.3)
+//            RobotMap.cargoMotorR.set(ControlMode.PercentOutput, 0.3)
     }
 
     fun spit() {                            //spits out cube
-            RobotMap.cargoMotorL.set(ControlMode.PercentOutput, 0.3)
-            RobotMap.cargoMotorR.set(ControlMode.PercentOutput, -0.3)
+//            RobotMap.cargoMotorL.set(ControlMode.PercentOutput, 0.3)
+//            RobotMap.cargoMotorR.set(ControlMode.PercentOutput, -0.3)
     }
 
     fun stopLips() {
-        RobotMap.cargoMotorL.set(ControlMode.PercentOutput, 0.0)
-        RobotMap.cargoMotorR.set(ControlMode.PercentOutput, 0.0)
+//        RobotMap.cargoMotorL.set(ControlMode.PercentOutput, 0.0)
+//        RobotMap.cargoMotorR.set(ControlMode.PercentOutput, 0.0)
     }
 }

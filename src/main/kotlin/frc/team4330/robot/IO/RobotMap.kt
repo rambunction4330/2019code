@@ -15,9 +15,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.*
-import java.net.Socket
-import java.net.SocketAddress
-import javax.sound.sampled.Port
 
 
 /**
@@ -30,49 +27,51 @@ object RobotMap {
     var Stick = Joystick(4)
 
     //ICE Systems
-    val elevatorTopLimit = DigitalInput(1)
-    val elevatorBottomLimit = DigitalInput(2)
-    val shooterBottomLimit = DigitalInput(0)
+//    val elevatorTopLimit = DigitalInput(1)
+//    val elevatorBottomLimit = DigitalInput(2)
+//    val shooterBottomLimit = DigitalInput(0)
 
     //command
-    var RobotCompressor = Compressor(0)
+//    var RobotCompressor = Compressor(0)
 
     //wheels
     var frontRight = WPI_TalonSRX(6) //not slaves (SRX)
     var frontLeft = WPI_TalonSRX(13)
-    var midRight = WPI_VictorSPX(4) //slaves (SPX)
-    var midLeft = WPI_VictorSPX(9)
+//    var midRight = WPI_VictorSPX(4) //slaves (SPX)
+//    var midLeft = WPI_VictorSPX(9)
     var backRight = WPI_VictorSPX(8)
     var backLeft = WPI_VictorSPX(3)
 
     //shifter
-    val shifterL = Solenoid(0)
-    val shifterR = Solenoid(1)
+//    val shifterL = Solenoid(0)
+//    val shifterR = Solenoid(1)
 
 
     //elevator
-    var elevatorMain = WPI_TalonSRX(5)
-    var elevatorSlave1 = WPI_TalonSRX(7)
-    var elevatorSlave2 = WPI_VictorSPX(12)
+//    var elevatorMain = WPI_TalonSRX(5)
+//    var elevatorSlave1 = WPI_TalonSRX(7)
+//    var elevatorSlave2 = WPI_VictorSPX(12)
 
 
     //vision input
-//    val ElevatorSocket = Socket("10.40.30.20", 9001)
-//    val ShooterSocket = Socket("10.40.30.20", 9002)
+//    var ShooterSocket = VisionComms("10.43.30.20", 9001)
+
+    var ShooterSocket = VisionComms()
+//    var ElevatorSock = VisionComms("10.43.30.20", 9002)
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
-    var gyro = AHRS(I2C.Port.kMXP)
+//    var gyro = AHRS(I2C.Port.kMXP)
 
 
     //cargo - 2 motors
-    var cargoSpool = WPI_TalonSRX(2)
+//    var cargoSpool = WPI_TalonSRX(2)
 
 
-    var cargoMotorL = WPI_VictorSPX(10)
-    var cargoMotorR = WPI_VictorSPX(11)
-    var ballPusher = Solenoid(2)
+//    var cargoMotorL = WPI_VictorSPX(10)
+//    var cargoMotorR = WPI_VictorSPX(11)
+//    var ballPusher = Solenoid(2)
 
-    var cheddar = LidarLite(I2C.Port.kOnboard)
+//    var cheddar = LidarLite(I2C.Port.kOnboard)
 
 
     fun init() {
@@ -81,16 +80,17 @@ object RobotMap {
 
         //driveTrain Init
         backRight.follow(frontRight)
-        midRight.follow(frontRight)
-        midLeft.follow(frontLeft)
+//        midRight.follow(frontRight)
+//        midLeft.follow(frontLeft)
         backLeft.follow(frontLeft)
 
-        elevatorMain.selectedSensorPosition = 0
-        cargoSpool.selectedSensorPosition = 0
-        //elevator Init
-        elevatorSlave1.follow(elevatorMain)
-        elevatorSlave2.follow(elevatorMain)
+//        ShooterSocket.startUp()
 
-//        ElevatorSocket.getOutputStream()
+
+//        elevatorMain.selectedSensorPosition = 0
+//        cargoSpool.selectedSensorPosition = 0
+        //elevator Init
+//        elevatorSlave1.follow(elevatorMain)
+//        elevatorSlave2.follow(elevatorMain)
     }
 }

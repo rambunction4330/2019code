@@ -75,13 +75,13 @@ class Autopath {
         if (true) {
             var l = left.calculate(encLeft)
             var r = right.calculate(encRight)
-            var gyro_heading = -RobotMap.gyro.angle    // Assuming the gyro is giving a value in degrees
+//            var gyro_heading = -RobotMap.gyro.angle    // Assuming the gyro is giving a value in degrees
             var desired_heading = Pathfinder.r2d(left.heading) // Should also be in degrees
-            var angleDifference = desired_heading - Pathfinder.boundHalfDegrees(gyro_heading)
-            var turn = 0.8 * (-1.0 / 42) * angleDifference
-            drive.drive.tankDrive(l + turn, r - turn)
+//            var angleDifference = desired_heading - Pathfinder.boundHalfDegrees(gyro_heading)
+//            var turn = 0.8 * (-1.0 / 42) * angleDifference
+//            drive.drive.tankDrive(l + turn, r - turn)
 
-            println("NavX angle: " + Pathfinder.boundHalfDegrees(RobotMap.gyro.angle) + " Desired Heading: " + desired_heading + " \nangleDiff: " + angleDifference + " l&r values: " + (l + turn) + " " + (r - turn))
+//            println("NavX angle: " + Pathfinder.boundHalfDegrees(RobotMap.gyro.angle) + " Desired Heading: " + desired_heading + " \nangleDiff: " + angleDifference + " l&r values: " + (l + turn) + " " + (r - turn))
         }
     }
 }

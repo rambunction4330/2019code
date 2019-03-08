@@ -19,7 +19,7 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
      */
 
     fun bottomHit() {
-        offset = 5.75*4096 - RobotMap.cargoSpool.getSelectedSensorPosition(0)
+//        offset = 5.75*4096 - RobotMap.cargoSpool.getSelectedSensorPosition(0)
     }
 
 
@@ -51,7 +51,8 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
     }
 
     fun getCurrentAngle() : Double {
-        return RobotMap.cargoSpool.getSelectedSensorPosition(0)*(80/5.75)
+//        return RobotMap.cargoSpool.getSelectedSensorPosition(0)*(80/5.75)
+        return 0.0
     }
 
 
@@ -60,10 +61,11 @@ class ShooterRotationPID : PIDSubsystem(1.0, 0.0, 0.2) {
     }
 
     override fun returnPIDInput(): Double {
-        return (RobotMap.cargoSpool.getSelectedSensorPosition(0) - offset) / 4096
+//        return (RobotMap.cargoSpool.getSelectedSensorPosition(0) - offset) / 4096
+        return 0.0
     }
 
     override fun usePIDOutput(output: Double) {
-        RobotMap.cargoSpool.set(output)
+//        RobotMap.cargoSpool.set(output)
     }
 }

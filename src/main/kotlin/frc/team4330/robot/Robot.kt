@@ -21,6 +21,8 @@ import frc.team4330.robot.Vision.VisionFollow
 import frc.team4330.robot.subsystems.Shooter
 
 
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -53,7 +55,7 @@ class Robot : TimedRobot() {
     var leftTriggerPressed = false
     var isElevator = true
 
-    val elevator = Elevator()
+//    val elevator = Elevator()
 
 
 
@@ -62,7 +64,7 @@ class Robot : TimedRobot() {
      * used for any initialization code.
      */
     override fun robotInit() {
-        RobotMap.cheddar.startMeasuring()
+//        RobotMap.cheddar.startMeasuring()
 
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto)
         m_chooser.addOption("My Auto", kCustomAuto)
@@ -70,15 +72,15 @@ class Robot : TimedRobot() {
         RobotMap.init()
 
 
-        RobotMap.gyro.reset()
+//        RobotMap.gyro.reset()
 
-        shooter = Shooter()
+//        shooter = Shooter()
         pathfinding = Autopath()
         pathfinding.initialize()
 //        elevator.init()
 //        shooterAngler.init()
 //        elevator.disable()
-        drive.toggleShift()
+//        drive.toggleShift()
     }
 
     /**
@@ -91,8 +93,8 @@ class Robot : TimedRobot() {
      * LiveWindow and SmartDashboard integrated updating.
      */
     override fun robotPeriodic() {
-        if (RobotMap.elevatorTopLimit.get()) elevator.topHit()
-        if (RobotMap.elevatorBottomLimit.get()) elevator.bottomHit()
+//        if (RobotMap.elevatorTopLimit.get()) elevator.topHit()
+//        if (RobotMap.elevatorBottomLimit.get()) elevator.bottomHit()
 //        if (RobotMap.shooterBottomLimit.get()) shooterAngler.bottomHit()
     }
 
@@ -111,12 +113,12 @@ class Robot : TimedRobot() {
     override fun autonomousInit() {
         follow = VisionFollow()
 
-        RobotMap.gyro.reset()
+//        RobotMap.gyro.reset()
 
         m_autoSelected = m_chooser.selected
         m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
         println("Auto selected: " + m_autoSelected!!)
-        RobotMap.gyro.reset()
+//        RobotMap.gyro.reset()
         RobotMap.frontRight.selectedSensorPosition = 0
         RobotMap.frontLeft.selectedSensorPosition = 0
 //        follow.initialize()
@@ -169,11 +171,11 @@ class Robot : TimedRobot() {
         }
 
 
-        if (RobotMap.XboxPort.yButton)  {
-            println("Shooter Level " + RobotMap.cargoSpool.getSelectedSensorPosition(0))
-            println("Shooter Level " + RobotMap.elevatorMain.getSelectedSensorPosition(0))
-            println("Shooter Distance " + RobotMap.cheddar.getDistance())
-        }
+//        if (RobotMap.XboxPort.yButton)  {
+//            println("Shooter Level " + RobotMap.cargoSpool.getSelectedSensorPosition(0))
+//            println("Shooter Level " + RobotMap.elevatorMain.getSelectedSensorPosition(0))
+//            println("Shooter Distance " + RobotMap.cheddar.getDistance())
+//        }
 
         if(RobotMap.Stick.getRawButtonPressed(3)) {
             isElevator = !isElevator
@@ -181,65 +183,66 @@ class Robot : TimedRobot() {
             else println("Now Controlling: SHOOTER")
         }
 
+
         //FLIGHT STICK Toggle
         if (isElevator) {
             //ELEVATOR
-            if (!manualControl) {
-                elevator.enable()
-                if (RobotMap.Stick.getRawButton(11)) elevator.goToLevel(0)
-                else if (RobotMap.Stick.getRawButton(9)) elevator.goToLevel(1)
-                else if (RobotMap.Stick.getRawButton(7)) elevator.goToLevel(2)
-            } else {
-                elevator.disable()
-                if(Math.abs(RobotMap.Stick.y) > 0.2) {
-                    if ((RobotMap.Stick.y < 0 && !RobotMap.elevatorBottomLimit.get()) || (RobotMap.Stick.y > 0 && !RobotMap.elevatorTopLimit.get())) {
-                        RobotMap.elevatorMain.set(RobotMap.Stick.y)
-                    }
-                }
-                else RobotMap.elevatorMain.set(0.0)
-            }
-
-            //  RESET
-            if (RobotMap.Stick.getRawButtonPressed(12)) {
-                elevator.setGoal(0.0)
-//                shooterAngler.setRotation(70.0)
-            }
+//            if (!manualControl) {
+//                elevator.enable()
+//                if (RobotMap.Stick.getRawButton(11)) elevator.goToLevel(0)
+//                else if (RobotMap.Stick.getRawButton(9)) elevator.goToLevel(1)
+//                else if (RobotMap.Stick.getRawButton(7)) elevator.goToLevel(2)
+//            } else {
+//                elevator.disable()
+//                if(Math.abs(RobotMap.Stick.y) > 0.2) {
+//                    if ((RobotMap.Stick.y < 0 && !RobotMap.elevatorBottomLimit.get()) || (RobotMap.Stick.y > 0 && !RobotMap.elevatorTopLimit.get())) {
+//                        RobotMap.elevatorMain.set(RobotMap.Stick.y)
+//                    }
+//                }
+//                else RobotMap.elevatorMain.set(0.0)
+//            }
+//
+//            //  RESET
+//            if (RobotMap.Stick.getRawButtonPressed(12)) {
+//                elevator.setGoal(0.0)
+////                shooterAngler.setRotation(70.0)
+//            }
 
         } else {
             //SHOOTER
-            if (RobotMap.Stick.trigger) RobotMap.ballPusher.set(true)
-            else RobotMap.ballPusher.set(false)
-
-            if (RobotMap.Stick.getRawButton(2)) {
-                RobotMap.cargoMotorR.set(1.0)
-                RobotMap.cargoMotorL.set(1.0)
-            } else if (RobotMap.Stick.getRawButton(4)) {
-                RobotMap.cargoMotorR.set(0.3)
-                RobotMap.cargoMotorL.set(0.3)
-            }else {
-                RobotMap.cargoMotorR.set(0.0)
-                RobotMap.cargoMotorL.set(0.0)
-            }
-
-            if (!manualControl) {
-//                shooterAngler.enable()
-//              Rocket lvl 1
-//                if (RobotMap.Stick.getRawButtonPressed(7)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() / 2.54) - 22, 26.8)
-//              Rocket lvl 2
-//                else if (RobotMap.Stick.getRawButtonPressed(9)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() / 2.54) - 22, 54.8)
-//              Rocket lvl 3
-//                else if (RobotMap.Stick.getRawButtonPressed(11)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() / 2.54) - 22, 82.8)
-//              Hab lvl
-//                else if (RobotMap.Stick.getRawButtonPressed(12)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() as Double / 2.54) - 22, 42.0)
-//              Intake lvl
-//                else if (RobotMap.Stick.getRawButtonPressed(10)) shooterAngler.setRotation(1.0)
-            } else {
-                if (Math.abs(RobotMap.Stick.y) > 0.2 && (RobotMap.Stick.y > 0 || !RobotMap.shooterBottomLimit.get())) {
-                    RobotMap.cargoSpool.set(RobotMap.Stick.y)
-                } else {
-                    RobotMap.cargoSpool.set(0.0)
-                }
-            }
+//            if (RobotMap.Stick.trigger) RobotMap.ballPusher.set(true)
+//            else RobotMap.ballPusher.set(false)
+//
+//            if (RobotMap.Stick.getRawButton(2)) {
+//                RobotMap.cargoMotorR.set(1.0)
+//                RobotMap.cargoMotorL.set(1.0)
+//            } else if (RobotMap.Stick.getRawButton(4)) {
+//                RobotMap.cargoMotorR.set(0.3)
+//                RobotMap.cargoMotorL.set(0.3)
+//            }else {
+//                RobotMap.cargoMotorR.set(0.0)
+//                RobotMap.cargoMotorL.set(0.0)
+//            }
+//
+//            if (!manualControl) {
+////                shooterAngler.enable()
+////              Rocket lvl 1
+////                if (RobotMap.Stick.getRawButtonPressed(7)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() / 2.54) - 22, 26.8)
+////              Rocket lvl 2
+////                else if (RobotMap.Stick.getRawButtonPressed(9)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() / 2.54) - 22, 54.8)
+////              Rocket lvl 3
+////                else if (RobotMap.Stick.getRawButtonPressed(11)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() / 2.54) - 22, 82.8)
+////              Hab lvl
+////                else if (RobotMap.Stick.getRawButtonPressed(12)) shooterAngler.setRotationFromDistance((RobotMap.cheddar.getDistance() as Double / 2.54) - 22, 42.0)
+////              Intake lvl
+////                else if (RobotMap.Stick.getRawButtonPressed(10)) shooterAngler.setRotation(1.0)
+//            } else {
+//                if (Math.abs(RobotMap.Stick.y) > 0.2 && (RobotMap.Stick.y > 0 || !RobotMap.shooterBottomLimit.get())) {
+//                    RobotMap.cargoSpool.set(RobotMap.Stick.y)
+//                } else {
+//                    RobotMap.cargoSpool.set(0.0)
+//                }
+//            }
 
        }
 
@@ -248,22 +251,27 @@ class Robot : TimedRobot() {
         if(isDriving) drive.curveDrive(-1*xbox.getY(GenericHID.Hand.kLeft), xbox.getX(GenericHID.Hand.kRight), xbox.getX(GenericHID.Hand.kRight) <= 0.5)
         //Intake
         if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kRight) > 0.8) {1
-            RobotMap.cargoMotorR.set(-0.5)
-            RobotMap.cargoMotorL.set(-0.5)
-        }
-        //Shifter
-//        if (RobotMap.XboxPort.getBumperPressed(GenericHID.Hand.kRight) || RobotMap.XboxPort.getBumperPressed(GenericHID.Hand.kLeft)) {
-//            drive.toggleShift()
-//        }
-        //Toggle Deploy/Retract
-        if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kLeft) > 0.8 && !leftTriggerPressed) {
-            leftTriggerPressed = true
-            elevator.changeMode()
-        } else if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kLeft) < 0.6){
-            leftTriggerPressed = false
+//            RobotMap.cargoMotorR.set(-0.5)
+//            RobotMap.cargoMotorL.set(-0.5)
         }
 
+        //Toggle Deploy/Retract
+//        if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kLeft) > 0.8 && !leftTriggerPressed) {
+//            leftTriggerPressed = true
+//            elevator.changeMode()
+//        } else if (RobotMap.XboxPort.getTriggerAxis(GenericHID.Hand.kLeft) < 0.6){
+//            leftTriggerPressed = false
+//        }
+
+        System.out.println("Throw!")
         //Shooter Vision BangBang system
+//        var shooterData = ObjectInputStream(RobotMap.ShooterSocket.getInputStream())
+//        var elevatorData = ObjectInputStream(RobotMap.ElevatorSocket.getInputStream())
+
+        if (true) {
+//            System.out.println("Catch!" + RobotMap.ShooterSocket.retrieveData())
+        }
+
 //        if (RobotMap.XboxPort.xButton) {
 //            isDriving = false
 //            if ((RobotMap.ShooterSocket.getInputStream() as Double) > 0.0) drive.curveDrive(0.0, 0.4, true)

@@ -22,8 +22,8 @@ class Drive {
     fun toggleShift() {
         shifted = !shifted
 
-            RobotMap.shifterL.set(false)
-            RobotMap.shifterR.set(false)
+//            RobotMap.shifterL.set(false)
+//            RobotMap.shifterR.set(false)
     }
 
 }
