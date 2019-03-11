@@ -269,7 +269,7 @@ class Robot : TimedRobot() {
 //        var elevatorData = ObjectInputStream(RobotMap.ElevatorSocket.getInputStream())
 
         if (true) {
-//            System.out.println("Catch!" + RobotMap.ShooterSocket.retrieveData())
+            System.out.println("Catch!" + RobotMap.ShooterSocket.retrieveData())
         }
 
 //        if (RobotMap.XboxPort.xButton) {

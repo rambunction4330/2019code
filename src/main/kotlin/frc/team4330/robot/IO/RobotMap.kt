@@ -8,13 +8,10 @@
 package frc.team4330.robot.IO
 
 
-import com.ctre.phoenix.motorcontrol.ControlMode
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
-import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.*
+import frc.team4330.robot.Communication.VisionComms
 
 
 /**
@@ -56,7 +53,7 @@ object RobotMap {
     //vision input
 //    var ShooterSocket = VisionComms("10.43.30.20", 9001)
 
-    var ShooterSocket = VisionComms()
+    var ShooterSocket = VisionComms("10.43.30.20", 9001)
 //    var ElevatorSock = VisionComms("10.43.30.20", 9002)
 
     //gyroscope - detects rotation of robot in general (purple thing on top of roborio)
@@ -84,7 +81,7 @@ object RobotMap {
 //        midLeft.follow(frontLeft)
         backLeft.follow(frontLeft)
 
-//        ShooterSocket.startUp()
+        ShooterSocket.startUp()
 
 
 //        elevatorMain.selectedSensorPosition = 0
